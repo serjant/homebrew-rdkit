@@ -96,7 +96,7 @@ class Rdkit < Formula
       You may need to add RDBASE to your environment variables.
       For Bash, put something like this in your $HOME/.bashrc:
         export RDBASE=#{HOMEBREW_PREFIX}/share/RDKit
-    EOS
+    <<~EOS
     if build.with? "java"
       s += <<-EOS.undent
 
@@ -105,7 +105,7 @@ class Rdkit < Formula
         You may need to link the Java bindings into the Java Extensions folder:
           sudo mkdir -p /Library/Java/Extensions
           sudo ln -s #{lib}/libGraphMolWrap.jnilib /Library/Java/Extensions/libGraphMolWrap.jnilib
-      EOS
+      <<~EOS
     end
     s
   end
