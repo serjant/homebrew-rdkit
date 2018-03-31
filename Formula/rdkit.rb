@@ -2,8 +2,8 @@ require 'formula'
 
 class Rdkit < Formula
   homepage "http://rdkit.org/"
-  url "https://github.com/rdkit/rdkit/archive/Release_2017_03_3.tar.gz"
-  sha256 "fd9f1fb51c75c6d44f8d5a5de46139af82ed22e93f90bfdf788e2a4096fd897c"
+  url "https://github.com/rdkit/rdkit/archive/Release_2017_09_3.tar.gz"
+  sha256 "6a4d9e9eb0ca06cbcdc20505f0c6ea0b1167b4dcdf7d1185871ba16ce701a5f4"
 
   head do
     url 'https://github.com/rdkit/rdkit.git'
@@ -36,6 +36,7 @@ class Rdkit < Formula
   end
 
   def install
+    postgres_version = `postgres -V | egrep -o '[0-9]{1,}\.[0-9]{1,}'`
     args = std_cmake_args
     args << "-DRDK_INSTALL_INTREE=OFF"
     args << "-DRDK_BUILD_SWIG_WRAPPERS=ON" if build.with? "java"
@@ -44,6 +45,7 @@ class Rdkit < Formula
     args << "-DRDK_BUILD_INCHI_SUPPORT=ON" if build.with? "inchi"
     args << '-DRDK_BUILD_CPP_TESTS=OFF'
     args << '-DRDK_INSTALL_STATIC_LIBS=OFF' unless build.with? 'postgresql'
+    args << '-DPostgreSQL_ROOT=/usr/local/Cellar/postgresql/#{postgres_version}' unless build.with? 'postgresql'
 
     # Get Python location
     python_executable = if build.with? "python3" then `which python3`.strip else `which python`.strip end
