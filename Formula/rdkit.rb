@@ -81,7 +81,7 @@ class Rdkit < Formula
 
     # Install postgresql files
     if build.with? "postgresql"
-      mv "Code/PgSQL/rdkit/rdkit.sql91.in", "Code/PgSQL/rdkit/rdkit--3.4.sql"
+      mv "Code/PgSQL/rdkit/rdkit.sql.in", "Code/PgSQL/rdkit/rdkit--3.4.sql"
       (share + 'postgresql/extension').install "Code/PgSQL/rdkit/rdkit--3.4.sql"
       (share + 'postgresql/extension').install "Code/PgSQL/rdkit/rdkit.control"
       (lib + 'postgresql').install "Code/PgSQL/rdkit/rdkit.so"
