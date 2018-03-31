@@ -36,7 +36,8 @@ class Rdkit < Formula
   end
 
   def install
-    postgres_version = `postgres -V | egrep -o '[0-9]{1,}\.[0-9]{1,}'`
+    postgres_version_cmd = IO.popen("postgres -V | egrep -o '[0-9]{1,}\.[0-9]{1,}'")
+    postgres_version = postgres_version_cmd.readlines.join('').delete!("\n")
     args = std_cmake_args
     args << "-DRDK_INSTALL_INTREE=OFF"
     args << "-DRDK_BUILD_SWIG_WRAPPERS=ON" if build.with? "java"
@@ -45,7 +46,7 @@ class Rdkit < Formula
     args << "-DRDK_BUILD_INCHI_SUPPORT=ON" if build.with? "inchi"
     args << '-DRDK_BUILD_CPP_TESTS=OFF'
     args << '-DRDK_INSTALL_STATIC_LIBS=OFF' unless build.with? 'postgresql'
-    args << '-DPostgreSQL_ROOT=/usr/local/Cellar/postgresql/#{postgres_version}' unless build.with? 'postgresql'
+    args << '-DPostgreSQL_ROOT=/usr/local/Cellar/postgresql/%s' % postgres_version if build.with? 'postgresql'
 
     # Get Python location
     python_executable = if build.with? "python3" then `which python3`.strip else `which python`.strip end
