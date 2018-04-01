@@ -39,7 +39,6 @@ class Rdkit < Formula
     postgres_version_cmd = IO.popen("postgres -V | egrep -o '[0-9]{1,}\.[0-9]{1,}'")
     postgres_version = postgres_version_cmd.readlines.join('').delete!("\n")
     args = std_cmake_args
-    args << "-DRDK_INSTALL_INTREE=OFF"
     args << "-DRDK_BUILD_SWIG_WRAPPERS=ON" if build.with? "java"
     args << "-DRDK_BUILD_AVALON_SUPPORT=ON" if build.with? "avalon"
     args << "-DRDK_BUILD_PGSQL=ON" if build.with? "postgresql"
